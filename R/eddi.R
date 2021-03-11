@@ -2,15 +2,14 @@
 #' 
 #' 
 #' @description
-#' Given a time series of the potential evapotranspiration (ETo), 
-#' gives a time series of Evaporative Demand Drought Index (EDDI) 
+#' Provides a time series of Evaporative Demand Drought Index (EDDI) 
+#' from a time series of the potential evapotranspiration (ETo) 
 #' 
 #' 
 #' @usage 
 #' eddi(data, scale, kernel = list(type = 'rectangular', shift = 0),
 #' distribution = 'log-Logistic', fit = 'ub-pwm', na.rm = FALSE,
 #' ref.start=NULL, ref.end=NULL, x=FALSE, params=NULL, ...)
-#'
 #' 
 #' 
 #' @param data a vector, matrix or data frame with time ordered values 
@@ -18,7 +17,7 @@
 #' @param scale an integer, representing the time scale at which 
 #' the EDDI will be computed.
 #' @param kernel optional, a list defining the type of kernel used 
-#' for computing the EDDI at scales higher than one. Defaults 
+#' for computing the eddi at scales higher than one. Defaults 
 #' to unshifted rectangular kernel.
 #' @param distribution optional, name of the distribution function 
 #' to be used for computing the EDDI (one of 'log-Logistic' and 
@@ -38,7 +37,7 @@
 #' @param x optional, a logical value indicating wether the data used 
 #' for fitting the model should be kept. Defaults to FALSE.
 #' @param params optional, an array of parameters for computing the 
-#' EDDI. This option overrides computation of fitting parameters.
+#' eddi. This option overrides computation of fitting parameters.
 #' @param ... other possible parameters.
 #' 
 #' 
@@ -55,7 +54,7 @@
 #' When used with the default options, it would yield values of both indices exactly  
 #' as defined in the references given below.
 #' 
-#' The EDDI were defined for monthly data. Since the PDFs of the
+#' The eddi were defined for monthly data. Since the PDFs of the
 #' data are not homogenous from month to month, the data is split into twelve
 #' series (one for each month) and independent PDFs are fit to each series. If 
 #' \code{data} is a vector or a matrix it will be treated as a sequence of monthly 
@@ -66,13 +65,13 @@
 #' 
 #' 
 #' @section Time scales:
-#' The EDDI can be computed at different time scales. 
-#' This way it is possible to incorporate the influence of 
-#' the past values of the variable in the computation enabling the index to adapt 
+#' The eddi can be computed at different time scales. 
+#' This way it is possible to incorporate the influence of the past values 
+#' of the variable in the computation enabling the index to adapt 
 #' to the memory of the system under study. The magnitude of this memory is 
 #' controlled by parameter \code{scale}. For example, a value of six would imply 
 #' that data from the current month and of the past five months will be used for 
-#' computing the EDDI value for a given month. By default all past data will 
+#' computing the eddi value for a given month. By default all past data will 
 #' have the same weight in computing the index, as it was originally proposed in the 
 #' references below. Other kernels, however, are available through parameter \code{kernel}. 
 #' The parameter \code{kernel} is a list defining the shape of the kernel and a time shift. 
@@ -80,7 +79,7 @@
 #' 
 #' 
 #' @section Probability distributions:
-#' \code{eddi} uses a log-Logistic distribution as suggested by Noguera et al. 2021
+#' \code{eddi} uses a log-Logistic distribution as suggested Noguera et al. 2021
 #' This behaviour can be modified, however, through parameter \code{distribution}.
 #' 
 #' 
@@ -99,7 +98,7 @@
 #' containing twelve parameter triads (xi, alpha, kappa) for each data series, one for each
 #' month. For Gamma, a three-dimensional array with dimensions (2,number of series in data,12), 
 #' containing twelve parameter pairs (alpha, beta). It is a good idea to look at the 
-#' coefficients slot of a previously fit \code{spei} spei object in order to understand the 
+#' coefficients slot of a previously fit \code{eddi} eddi object in order to understand the 
 #' structure of the parameter array. The parameter \code{distribution} is still used under 
 #' this option in order to know what distribution function should be used.
 #' 
@@ -123,12 +122,12 @@
 #' 
 #' 
 #' @return 
-#' Functions \code{spei} and \code{spi} return an object of class \code{spei}. The generic 
+#' Functions \code{eddi} and \code{spi} return an object of class \code{eddi}. The generic 
 #' functions \code{print} and \code{summary} can be used to obtain summaries of the results. 
 #' The generic accessor functions \code{coefficients} and \code{fitted} extract useful features 
 #' of the object.
 #' 
-#' An object of class \code{spei} is a list containing at least the following components:
+#' An object of class \code{eddi} is a list containing at least the following components:
 #' 
 #' \itemize{
 #'   \item call: the call to \code{eddi} used to generate the object.
@@ -153,26 +152,11 @@
 #' 
 #' 
 #' @references 
-#' S.M. Vicente-Serrano, S. Beguería, J.I. López-Moreno. 2010. A Multi-scalar drought index sensitive 
-#' to global warming: The Standardized Precipitation Evapotranspiration Index – SPEI. 
-#' \emph{Journal of Climate} \bold{23}: 1696, DOI: 10.1175/2009JCLI2909.1.
-#' 
-#' S. Beguería, S.M Vicente-Serrano, F. Reig, B. Latorre. 2014. Standardized precipitation
-#' evapotranspiration index (SPEI) revisited: parameter fitting, evapotranspiration models, tools,
-#' datasets and drought monitoring. \emph{International Journal of Climatology}
-#' \bold{34}(10): 3001-3023.
-#' 
-#' \url{http://spei.csic.es}
+#' Noguera I, Domínguez-Castro F, Vicente-Serrano SM. 2021. Flash Drought Response to Precipitation and Atmospheric Evaporative Demand in Spain. 
+#' Atmosphere. MDPI AG, 12(2): 165. https://doi.org/10.3390/atmos12020165.
 #' 
 #' 
-#' @author Santiago Beguería and Sergio M. Vicente-Serrano. Maintainer: Santiago Beguería.
-#' 
-#' 
-#' @seealso 
-#' \code{\link{kern}} for different kernel functions available. \code{\link{thornthwaite}}, 
-#' \code{\link{hargreaves}} and \code{\link{penman}} for ways of calculating potential evapotranspiration. 
-#' \code{\link{summary.spei}} and \code{\link{print.spei}} for summaries of \code{spei} objects. 
-#' \code{\link{plot.spei}} for plotting \code{spei} objects.
+#' @author Iván Noguera, Sergio M. Vicente-Serrano, Fernando Domínguez-Castro and Fergus Reig. 
 #' 
 #' 
 eddi <- function(data, scale, kernel=list(type='rectangular',shift=0),
@@ -334,145 +318,4 @@ eddi <- function(data, scale, kernel=list(type='rectangular',shift=0),
   
   class(z) <- 'eddi'
   return(z)
-}
-
-#' @name Generic-methods-for-spei-objects
-#' 
-#' @title Generic methods for \code{spei} objects.
-#' 
-#' @aliases print.spi plot.spei plot.spi summary.spei summary.spi
-#' 
-#' @description 
-#' Generic methods for extracting information and plotting \code{spei} objects.
-#' 
-#' @usage
-#' \method{print}{spei}(x, ...)
-#' \method{summary}{spei}(object, ...)
-#' \method{plot}{spei}(x, ttext, ...)
-#' 
-#' @param x an object of class \code{spei}.
-#' @param object an object of class \code{spei}.
-#' @param ttext text to use as part of the plot title
-#' @param ... additional parameters, not used at present.
-#' 
-#' 
-#' @details This functions allow extracting information and plotting \code{spei} 
-#' objects. \code{print} yields the fitted values, i.e. a time series of SPEI or SPI values. 
-#' \code{summary} reports the function call, the parameters of the PDF used, and the time 
-#' series of SPEI or SPI values. \code{plot} produces a plot of the time series of SPEI or 
-#' SPI values, with blue and red colors for positive and negative values, respectively. If 
-#' a reference period was used in the function call it is shown by a shaded area. In the 
-#' unlikely case that NA or Inf values were produced, these are shown by circles.
-#' 
-#' @references 
-#' S.M. Vicente-Serrano, S. Beguería, J.I. López-Moreno. 2010. A Multi-scalar drought index 
-#' sensitive to global warming: The Standardized Precipitation Evapotranspiration Index – SPEI. 
-#' \emph{Journal of Climate} \bold{23}: 1696, DOI: 10.1175/2009JCLI2909.1.
-#' 
-#' 
-#' @author Santiago Beguería
-#'  
-#' 
-#' @export
-#' 
-print.spei <- function (x, ...) {
-	print(x$fitted)
-}
-
-#' 
-#' @title summary of spei/spi
-#' 
-#' 
-#' @description See print.spei
-#' 
-#' 
-#' @details See print.spei
-#' 
-#' 
-#' @rdname Generic-methods-for-spei-objects
-#' 
-#' 
-#' @export
-#' 
-summary.spei <- function (object, ...) {
-	x <- object
-	cat('Call:\n')
-	print(x$call)
-	cat('\nCoefficients:\n')
-	for (i in 1:dim(x$coeff)[2]) {
-		cat('\t',dimnames(x$coeff)[[2]][i],':\n',sep='')
-		tab <- cbind(t(x$coeff[,i,]))
-		rownames(tab) <- 1:dim(x$coeff)[3]
-		print(tab)
-		cat('\nFitted:\n')
-		print(x$fitted)
-	}
-}
-
-#' 
-#' @title plot spei/spi
-#' 
-#' 
-#' @description See print.spei
-#' 
-#' 
-#' @details See print.spei
-#' 
-#' 
-#' @rdname Generic-methods-for-spei-objects
-#' 
-#' 
-#' @importFrom stats ts frequency end 
-#' @importFrom graphics plot polygon abline grid lines points par
-#' 
-#' 
-#' @export
-#' 
-plot.spei <- function (x, ttext=NULL, ...) {
-  label <- ifelse(as.character(x$call)[1]=='spei','SPEI','SPI')
-	ser <- ts(as.matrix(x$fitted[-c(1:x$scale),]),
-		end=end(x$fitted),frequency=frequency(x$fitted))
-	ser[is.nan(ser-ser)] <- 0
-	se <- ifelse(ser==0,ser,NA)
-	if(is.null(ttext)){
-	  tit <- paste(label, dimnames(x$coefficients)[2][[1]])
-	} else {
-	  tit = paste(label, ttext, seq_along(dim(x$coefficients)[2]))
-	}
-	#
-	if (start(ser)[2]==1) {
-		ns <- c(start(ser)[1]-1,12)
-	} else {
-		ns <- c(start(ser)[1],start(ser)[2]-1)	
-	}
-	if (end(ser)[2]==12) {
-		ne <- c(end(ser)[1]+1,1)
-	} else {
-		ne <- c(end(ser)[1],end(ser)[2]+1)
-	}
-	#
-	n <- ncol(ser)
-	if (is.null(n)) n <- 1
-	par(mar=c(4,4,2,1)+0.1)
-	if (n>1 & n<5) par(mfrow=c(n,1))
-	if (n>1 & n>=5) par(mfrow=c({n+1}%/%2,2))
-	for (i in 1:n) {
-		datt <- ts(c(0,ser[,i],0),frequency=frequency(ser),start=ns,end=ne)
-		datt.pos <- ifelse(datt>0,datt,0)
-		datt.neg <- ifelse(datt<=0,datt,0)
-		plot(datt, type='n', xlab='', ylab=paste(label, "(z-values)"),main=tit[i])
-		if (!is.null(x$ref.period)) {
-			k <- ts(5,start=x$ref.period[1,],end=x$ref.period[2,],frequency=12)
-			k[1] <- k[length(k)] <- -5
-			polygon(k, col='light grey',border=NA,density=20)
- 			abline(v=x$ref.period[1,1]+(x$ref.period[1,2]-1)/12,col='grey')
-			abline(v=x$ref.period[2,1]+(x$ref.period[2,2]-1)/12,col='grey')
-		}
-		grid(col='black')
-		polygon(datt.pos,col='blue',border=NA)
-		polygon(datt.neg,col='red',border=NA)
-		lines(datt,col='dark grey')
-		abline(h=0)
-		points(se,pch=21,col='white',bg='black')
-	}
 }
