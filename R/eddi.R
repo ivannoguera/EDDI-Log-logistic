@@ -1,39 +1,28 @@
-spei <- function(x, y,...) UseMethod('spei')
-
-
-#' @name Drought-indices
-#' 
-#' @aliases spi
-#' 
-#' @title Calculation of the Standardized Precipitation-Evapotranspiration 
-#' Index (SPEI) and the Standardized Precipitation Index (SPI).
+#' @title Calculation of the Evaporative Demand Drought Index (EDDI) 
 #' 
 #' 
 #' @description
-#' Given a time series of the climatic water balance (precipitation minus 
-#' potential evapotranspiration), gives a time series of the Standardized 
-#' Precipitation-Evapotranspiration Index (SPEI).
+#' Given a time series of the potential evapotranspiration (ETo), 
+#' gives a time series of Evaporative Demand Drought Index (EDDI) 
 #' 
 #' 
 #' @usage 
-#' spei(data, scale, kernel = list(type = 'rectangular', shift = 0),
+#' eddi(data, scale, kernel = list(type = 'rectangular', shift = 0),
 #' distribution = 'log-Logistic', fit = 'ub-pwm', na.rm = FALSE,
 #' ref.start=NULL, ref.end=NULL, x=FALSE, params=NULL, ...)
 #'
 #' 
 #' 
 #' @param data a vector, matrix or data frame with time ordered values 
-#' of precipitation (for the SPI) or of the climatic balance 
-#' precipitation minus potential evapotranspiration (for the SPEI).
+#' of potential evapotranspiration (ETo) 
 #' @param scale an integer, representing the time scale at which 
-#' the SPEI / SPI will be computed.
+#' the EDDI will be computed.
 #' @param kernel optional, a list defining the type of kernel used 
-#' for computing the SPEI / SPI at scales higher than one. Defaults 
+#' for computing the EDDI at scales higher than one. Defaults 
 #' to unshifted rectangular kernel.
 #' @param distribution optional, name of the distribution function 
-#' to be used for computing the SPEI / SPI (one of 'log-Logistic', 
-#' 'Gamma' and 'PearsonIII'). Defaults to 'log-Logistic' for \code{spei}, 
-#' and to 'Gamma' for \code{spi}.
+#' to be used for computing the EDDI (one of 'log-Logistic' and 
+#' 'PearsonIII'). Defaults to 'log-Logistic' 
 #' @param fit optional, name of the method used for computing the 
 #' distribution function parameters (one of 'ub-pwm', 'pp-pwm' and 
 #' 'max-lik'). Defaults to 'ub-pwm'.
@@ -54,24 +43,18 @@ spei <- function(x, y,...) UseMethod('spei')
 #' 
 #' 
 #' @details 
-#' The \code{spei} and \code{spi} functions allow computing the SPEI 
-#' and the SPI indices. These are climatic proxies widely used for drought 
-#' quantification and monitoring. Both functions are identical (in fact, 
-#' \code{spi} is just a wrapper for \code{spei}), but they are kept 
-#' separated for clarity. Basically, the functions standardize a variable 
-#' following a log-Logistic (or Gamma, or PearsonIII) distribution function 
-#' (i.e., they transform it to a standard Gaussian variate with zero mean 
-#' and standard deviation of one).
+#' This functions are identical to spei() provided by ######### 
+#' The function standardize a variable following a log-Logistic (or PearsonIII)
+#' distribution function (i.e., they transform it to a standard Gaussian
+#' variate with zero mean and standard deviation of one).
 #' 
 #' 
 #' @section Input data:
-#' The input variable is a time ordered series of precipitation values 
-#' for \code{spi}, or a series of the climatic water balance (precipitation 
-#' minus potential evapotranspiration) for \code{spei}. When used with the 
-#' default options, it would yield values of both indices exactly as defined 
-#' in the references given below.
+#' The input variable is a time ordered series of potential evapotranspiration (ETo). 
+#' When used with the default options, it would yield values of both indices exactly  
+#' as defined in the references given below.
 #' 
-#' The SPEI and the SPI were defined for monthly data. Since the PDFs of the
+#' The EDDI were defined for monthly data. Since the PDFs of the
 #' data are not homogenous from month to month, the data is split into twelve
 #' series (one for each month) and independent PDFs are fit to each series. If 
 #' \code{data} is a vector or a matrix it will be treated as a sequence of monthly 
@@ -82,13 +65,13 @@ spei <- function(x, y,...) UseMethod('spei')
 #' 
 #' 
 #' @section Time scales:
-#' An important advantage of the SPEI and the SPI is that they can be computed at 
-#' different time scales. This way it is possible to incorporate the influence of 
+#' The EDDI can be computed at different time scales. 
+#' This way it is possible to incorporate the influence of 
 #' the past values of the variable in the computation enabling the index to adapt 
 #' to the memory of the system under study. The magnitude of this memory is 
 #' controlled by parameter \code{scale}. For example, a value of six would imply 
 #' that data from the current month and of the past five months will be used for 
-#' computing the SPEI or SPI value for a given month. By default all past data will 
+#' computing the EDDI value for a given month. By default all past data will 
 #' have the same weight in computing the index, as it was originally proposed in the 
 #' references below. Other kernels, however, are available through parameter \code{kernel}. 
 #' The parameter \code{kernel} is a list defining the shape of the kernel and a time shift. 
@@ -192,78 +175,7 @@ spei <- function(x, y,...) UseMethod('spei')
 #' \code{\link{plot.spei}} for plotting \code{spei} objects.
 #' 
 #' 
-#' @examples 
-#' # Load data
-#' data(wichita)
-#' 
-#' # Compute potential evapotranspiration (PET) and climatic water balance (BAL)
-#' wichita$PET <- thornthwaite(wichita$TMED, 37.6475)
-#' wichita$BAL <- wichita$PRCP-wichita$PET
-#' 
-#' # Convert to a ts (time series) object for convenience
-#' wichita <- ts(wichita[,-c(1,2)], end=c(2011,10), frequency=12)
-#' plot(wichita)
-#' 
-#' # One and tvelwe-months SPEI
-#' spei1 <- spei(wichita[,'BAL'], 1)
-#' spei12 <- spei(wichita[,'BAL'], 12)
-#' class(spei1)
-#' 
-#' # Extract information from spei object: summary, call function, fitted values, and coefficients
-#' summary(spei1)
-#' names(spei1)
-#' spei1$call
-#' spei1$fitted
-#' spei1$coefficients
-#' 
-#' # Plot spei object
-#' par(mfrow=c(2,1))
-#' plot(spei1, main='Wichita, SPEI-1')
-#' plot(spei12, main='Wichita, SPEI-12')
-#' 
-#' # One and tvelwe-months SPI
-#' spi_1 <- spi(wichita[,'PRCP'], 1)
-#' spi_12 <- spi(wichita[,'PRCP'], 12)
-#' 
-#' par(mfrow=c(2,1))
-#' plot(spi_1, 'Wichita, SPI-1')
-#' plot(spi_12, 'Wichita, SPI-12')
-#' 
-#' # Time series not starting in January
-#' par(mfrow=c(1,1))
-#' plot(spei(ts(wichita[,'BAL'], freq=12, start=c(1980,6)), 12))
-#' 
-#' # Using a particular reference period (1980-2000) for computing the parameters
-#' plot(spei(ts(wichita[,'BAL'], freq=12, start=c(1980,6)), 12,
-#' 	ref.start=c(1980,1), ref.end=c(2000,1)))
-#' 
-#' # Using different kernels
-#' spei24 <- spei(wichita[,'BAL'],24)
-#' spei24_gau <- spei(wichita[,'BAL'], 24, kernel=list(type='gaussian', shift=0))
-#' par(mfrow=c(2,1))
-#' plot(spei24, main='SPEI-24 with rectangular kernel')
-#' plot(spei24_gau, main='SPEI-24 with gaussian kernel')
-#' 
-#' # Computing several time series at a time
-#' # Dataset balance contains time series of the climatic water balance at 12 locations
-#' data(balance)
-#' head(balance)
-#' bal_spei12 <- spei(balance, 12)
-#' plot(bal_spei12)
-#' 
-#' # Using custom (user provided) parameters
-#' coe <- spei1$coefficients
-#' dim(coe)
-#' spei(wichita[,'BAL'], 1, params=coe)
-#' 
-#' @importFrom stats cycle ts frequency start is.ts pnorm qnorm window embed sd
-#' @importFrom lmomco pwm.pp pwm2lmom are.lmom.valid parglo pargam parpe3 cdfgam cdfpe3
-#' @importFrom lmom pelglo pelgam pelpe3
-#' @importFrom TLMoments PWM
-#' 
-#' @export
-#' 
-spei <- function(data, scale, kernel=list(type='rectangular',shift=0),
+eddi <- function(data, scale, kernel=list(type='rectangular',shift=0),
                  distribution='log-Logistic', fit='ub-pwm', na.rm=FALSE, 
                  ref.start=NULL, ref.end=NULL, x=FALSE, params=NULL, ...) {
   
@@ -276,8 +188,8 @@ spei <- function(data, scale, kernel=list(type='rectangular',shift=0),
   if (anyNA(data) && na.rm==FALSE) {
     stop('Error: Data must not contain NAs')
   }
-  if (!(distribution %in% c('log-Logistic', 'Gamma', 'PearsonIII'))) {
-    stop('Distrib must be one of "log-Logistic", "Gamma" or "PearsonIII"')
+  if (!(distribution %in% c('log-Logistic', 'PearsonIII'))) {
+    stop('Distrib must be one of "log-Logistic" or "PearsonIII"')
   }
   if (!(fit %in% c('max-lik', 'ub-pwm', 'pp-pwm'))) {
     stop('Method must be one of "ub-pwm" (default), "pp-pwm" or "max-lik"')
@@ -287,7 +199,7 @@ spei <- function(data, scale, kernel=list(type='rectangular',shift=0),
   }
   
   if (!is.ts(data)) {
-    data <- ts(as.matrix(data), frequency = 12)
+    data <- ts(as.matrix(data), frequency = 12)# frecuency=48 for weekly series
   } else {
     data <- ts(as.matrix(data), frequency=frequency(data), start=start(data))
   }
@@ -296,18 +208,9 @@ spei <- function(data, scale, kernel=list(type='rectangular',shift=0),
   
   
   coef = switch(distribution,
-                "Gamma" = array(NA,c(2,m,fr),list(par=c('alpha','beta'),colnames(data),NULL)),
                 "log-Logistic" = array(NA,c(3,m,fr),list(par=c('xi','alpha','kappa'),colnames(data),NULL)),
                 "PearsonIII" = coef <- array(NA,c(3,m,fr),list(par=c('mu','sigma','gamma'),colnames(data),NULL))
   )
-  
-  dim_one = ifelse(distribution == "Gamma", 2, 3)
-  
-  if (!is.null(params)) {
-    if (dim(params)[1]!=dim_one | dim(params)[2]!=m | dim(params)[3]!=12) {
-      stop(paste('parameters array should have dimensions (', dim_one, ', ', m, ', 12)',sep=' '))
-    }
-  }
   
   # Loop through series (columns in data)
   if (!is.null(ref.start) && !is.null(ref.end)) {
@@ -383,7 +286,6 @@ spei <- function(data, scale, kernel=list(type='rectangular',shift=0),
         # Calculate parameters based on distribution with lmom then lmomco
         f_params = switch(distribution,
                           "log-Logistic" = tryCatch(lmom::pelglo(fortran_vec), error = function(e){ parglo(lmom)$para }),
-                          "Gamma" = tryCatch(lmom::pelgam(fortran_vec), error = function(e){ pargam(lmom)$para }),
                           "PearsonIII" = tryCatch(lmom::pelpe3(fortran_vec), error = function(e){ parpe3(lmom)$para })
         )
         
@@ -400,14 +302,13 @@ spei <- function(data, scale, kernel=list(type='rectangular',shift=0),
       # Calculate cdf based on distribution with lmom
       cdf_res = switch(distribution,
                        "log-Logistic" = lmom::cdfglo(acu.pred[ff], f_params),
-                       "Gamma" = lmom::cdfgam(acu.pred[ff], f_params),
                        "PearsonIII" = lmom::cdfpe3(acu.pred[ff], f_params)				  				
       )
-
-      std[ff,s] = qnorm(cdf_res)
+      # Fitted values, reversing the sign of EDDI values
+      std[ff,s] = -qnorm(cdf_res)
       coef[,s,c] <- f_params
       
-      # Adjust if user chose Gamma or PearsonIII
+      # Adjust if user chose PearsonIII
       if(distribution != 'log-Logistic'){ 
         std[ff,s] = qnorm(pze + (1-pze)*pnorm(std[ff,s]))
       }
@@ -423,7 +324,7 @@ spei <- function(data, scale, kernel=list(type='rectangular',shift=0),
   if (x) z$data <- data
   if (!is.null(ref.start)) z$ref.period <- rbind(ref.start,ref.end)
   
-  class(z) <- 'spei'
+  class(z) <- 'eddi'
   return(z)
 }
 
