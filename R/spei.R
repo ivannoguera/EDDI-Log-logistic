@@ -1,4 +1,4 @@
-eddi <- function(x, y,...) UseMethod('spei')
+spei <- function(x, y,...) UseMethod('spei')
 
 
 #' @name Drought-indices
