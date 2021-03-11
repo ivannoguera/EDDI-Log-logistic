@@ -17,7 +17,7 @@
 #' @param scale an integer, representing the time scale at which 
 #' the EDDI will be computed.
 #' @param kernel optional, a list defining the type of kernel used 
-#' for computing the eddi at scales higher than one. Defaults 
+#' for computing the EDDI at scales higher than one. Defaults 
 #' to unshifted rectangular kernel.
 #' @param distribution optional, name of the distribution function 
 #' to be used for computing the EDDI (one of 'log-Logistic' and 
@@ -37,7 +37,7 @@
 #' @param x optional, a logical value indicating wether the data used 
 #' for fitting the model should be kept. Defaults to FALSE.
 #' @param params optional, an array of parameters for computing the 
-#' eddi. This option overrides computation of fitting parameters.
+#' EDDI. This option overrides computation of fitting parameters.
 #' @param ... other possible parameters.
 #' 
 #' 
@@ -54,7 +54,7 @@
 #' When used with the default options, it would yield values of both indices exactly  
 #' as defined in the references given below.
 #' 
-#' The eddi were defined for monthly data. Since the PDFs of the
+#' The EDDI were defined for monthly data. Since the PDFs of the
 #' data are not homogenous from month to month, the data is split into twelve
 #' series (one for each month) and independent PDFs are fit to each series. If 
 #' \code{data} is a vector or a matrix it will be treated as a sequence of monthly 
@@ -65,13 +65,13 @@
 #' 
 #' 
 #' @section Time scales:
-#' The eddi can be computed at different time scales. 
+#' The EDDI can be computed at different time scales. 
 #' This way it is possible to incorporate the influence of the past values 
 #' of the variable in the computation enabling the index to adapt 
 #' to the memory of the system under study. The magnitude of this memory is 
 #' controlled by parameter \code{scale}. For example, a value of six would imply 
 #' that data from the current month and of the past five months will be used for 
-#' computing the eddi value for a given month. By default all past data will 
+#' computing the EDDI value for a given month. By default all past data will 
 #' have the same weight in computing the index, as it was originally proposed in the 
 #' references below. Other kernels, however, are available through parameter \code{kernel}. 
 #' The parameter \code{kernel} is a list defining the shape of the kernel and a time shift. 
@@ -98,7 +98,7 @@
 #' containing twelve parameter triads (xi, alpha, kappa) for each data series, one for each
 #' month. For Gamma, a three-dimensional array with dimensions (2,number of series in data,12), 
 #' containing twelve parameter pairs (alpha, beta). It is a good idea to look at the 
-#' coefficients slot of a previously fit \code{eddi} eddi object in order to understand the 
+#' coefficients slot of a previously fit \code{eddi} EDDI object in order to understand the 
 #' structure of the parameter array. The parameter \code{distribution} is still used under 
 #' this option in order to know what distribution function should be used.
 #' 
@@ -117,7 +117,7 @@
 #' It is possible to use the \code{eddi} function for processing multivariate 
 #' datasets at once. If a matrix or data frame is supplied as \code{data}, with time series of 
 #' potential evapotranspiration (ETo) arranged in columns, the 
-#' result would be a matrix (data frame) of eddi series. This makes processing large datasets 
+#' result would be a matrix (data frame) of EDDI series. This makes processing large datasets 
 #' extremely easy, since no loops need to be used.
 #' 
 #' 
