@@ -38,15 +38,16 @@
 #' @param x optional, a logical value indicating wether the data used 
 #' for fitting the model should be kept. Defaults to FALSE.
 #' @param params optional, an array of parameters for computing the 
-#' spei. This option overrides computation of fitting parameters.
+#' EDDI. This option overrides computation of fitting parameters.
 #' @param ... other possible parameters.
 #' 
 #' 
 #' @details 
-#' This functions are identical to spei() provided by ######### 
-#' The function standardize a variable following a log-Logistic (or PearsonIII)
-#' distribution function (i.e., they transform it to a standard Gaussian
-#' variate with zero mean and standard deviation of one).
+#' This function is based on spei funtion provided by Santiago Beguería 
+#' and Sergio M. Vicente-Serrano (https://github.com/sbegueria/SPEI).
+#' The function standardize a variable following a log-Logistic
+#' (or PearsonIII) distribution function (i.e., they transform it to a
+#' standard Gaussian variate with zero mean and standard deviation of one).
 #' 
 #' 
 #' @section Input data:
@@ -79,9 +80,8 @@
 #' 
 #' 
 #' @section Probability distributions:
-#' Following the original definitions \code{spei} uses a log-Logistic distribution 
-#' by default, and \code{spi} uses a Gamma distribution. This behaviour can be modified, 
-#' however, through parameter \code{distribution}.
+#' \code{eddi} uses a log-Logistic distribution as suggested by Noguera et al. 2021
+#' This behaviour can be modified, however, through parameter \code{distribution}.
 #' 
 #' 
 #' @section Fitting methods:
@@ -115,10 +115,10 @@
 #' 
 #' 
 #' @section Processing large datasets:
-#' It is possible to use the \code{spei} and \code{spi} functions for processing multivariate 
+#' It is possible to use the \code{eddi} function for processing multivariate 
 #' datasets at once. If a matrix or data frame is supplied as \code{data}, with time series of 
-#' precipitation or precipitation minus potential evapotranspiration arranged in columns, the 
-#' result would be a matrix (data frame) of spi or spei series. This makes processing large datasets 
+#' potential evapotranspiration (ETo) arranged in columns, the 
+#' result would be a matrix (data frame) of eddi series. This makes processing large datasets 
 #' extremely easy, since no loops need to be used.
 #' 
 #' 
@@ -131,9 +131,9 @@
 #' An object of class \code{spei} is a list containing at least the following components:
 #' 
 #' \itemize{
-#'   \item call: the call to \code{spei} or \code{spi} used to generate the object.
-#'   \item fitted: time series with the values of the Standardized Precipitation-Evapotranspiration 
-#'   Index (SPEI) or the Standardized Precipitation Index (SPI). If data consists of several columns 
+#'   \item call: the call to \code{eddi} used to generate the object.
+#'   \item fitted: time series with the values of the Evaporative Demand Drought Index (EDDI)  
+#'   If data consists of several columns 
 #'   the function will treat each column as independent data, and the result will be a multivariate 
 #'   time series. The names of the columns in \code{data} will be used as column names in fitted.
 #'   \item coefficients: an array with the values of the coefficients of the distribution function 
