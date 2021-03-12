@@ -1,8 +1,8 @@
-# SPEI
+# EDDI
 
-An R package incorporating a set of functions for computing potential or reference evapotranspiration and several widely used drought indices, currently including the **Standardized Precipitation-Evapotranspiration Index (SPEI)** and the **Standardized Precipitation Index (SPE)**.
+This repository includes a function for the parametric calculation of the **Evaporative Demand Drought Index (EDDI)** based on the Log-logistic distribution.
 
-The package is centered on the SPEI. For more information on this drought index, please visit 
+This funtion is based on spei funtion create by 
 [spei.csic.es](http://spei.csic.es/).
 
 
