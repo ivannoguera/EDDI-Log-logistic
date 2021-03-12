@@ -20,8 +20,8 @@
 #' for computing the EDDI at scales higher than one. Defaults 
 #' to unshifted rectangular kernel.
 #' @param distribution optional, name of the distribution function 
-#' to be used for computing the EDDI (one of 'log-Logistic' and 
-#' 'PearsonIII'). Defaults to 'log-Logistic' 
+#' to be used for computing the EDDI (one of 'log-Logistic',  
+#' 'Normal' and 'PearsonIII'). Defaults to 'log-Logistic' 
 #' @param fit optional, name of the method used for computing the 
 #' distribution function parameters (one of 'ub-pwm', 'pp-pwm' and 
 #' 'max-lik'). Defaults to 'ub-pwm'.
@@ -45,7 +45,7 @@
 #' This function is based on spei funtion provided by Santiago Beguería 
 #' and Sergio M. Vicente-Serrano (https://github.com/sbegueria/SPEI).
 #' The function standardize a variable following a log-Logistic
-#' (or PearsonIII) distribution function (i.e., they transform it to a
+#' (or Normal or PearsonIII) distribution function (i.e., they transform it to a
 #' standard Gaussian variate with zero mean and standard deviation of one).
 #' 
 #' 
@@ -96,8 +96,8 @@
 #' parameter depend on the distribution function being used. For log-Logistic and PearsonIII 
 #' it should be a three-dimensional array with dimensions (3,number of series in data,12), 
 #' containing twelve parameter triads (xi, alpha, kappa) for each data series, one for each
-#' month. For Gamma, a three-dimensional array with dimensions (2,number of series in data,12), 
-#' containing twelve parameter pairs (alpha, beta). It is a good idea to look at the 
+#' month. For Normal, a three-dimensional array with dimensions (2,number of series in data,12), 
+#' containing twelve parameter pairs (mu, sigma). It is a good idea to look at the 
 #' coefficients slot of a previously fit \code{eddi} EDDI object in order to understand the 
 #' structure of the parameter array. The parameter \code{distribution} is still used under 
 #' this option in order to know what distribution function should be used.
@@ -152,6 +152,9 @@
 #' 
 #' 
 #' @references 
+#' Noguera, I.; Vicente-Serrano, S.M.; Domínguez-Castro, F.; Reig, F. Assessment of parametric approaches to calculate the Evaporative Demand 
+#' Drought Index (EDDI). Int. J. Climatol. 2021. Under Review.
+#'
 #' Noguera I, Domínguez-Castro F, Vicente-Serrano SM. 2021. Flash Drought Response to Precipitation and Atmospheric Evaporative Demand in Spain. 
 #' Atmosphere. MDPI AG, 12(2): 165. https://doi.org/10.3390/atmos12020165.
 #' 
@@ -172,8 +175,8 @@ eddi <- function(data, scale, kernel=list(type='rectangular',shift=0),
   if (anyNA(data) && na.rm==FALSE) {
     stop('Error: Data must not contain NAs')
   }
-  if (!(distribution %in% c('log-Logistic', 'PearsonIII'))) {
-    stop('Distrib must be one of "log-Logistic" or "PearsonIII"')
+  if (!(distribution %in% c('log-Logistic', 'Normal', 'PearsonIII'))) {
+    stop('Distrib must be one of "log-Logistic", "Normal" or "PearsonIII"')
   }
   if (!(fit %in% c('max-lik', 'ub-pwm', 'pp-pwm'))) {
     stop('Method must be one of "ub-pwm" (default), "pp-pwm" or "max-lik"')
@@ -192,18 +195,19 @@ eddi <- function(data, scale, kernel=list(type='rectangular',shift=0),
   
   
   coef = switch(distribution,
+                "Normal" = array(NA,c(2,m,fr),list(par=c('mu','sigma'),colnames(data),NULL)),
                 "log-Logistic" = array(NA,c(3,m,fr),list(par=c('xi','alpha','kappa'),colnames(data),NULL)),
                 "PearsonIII" = coef <- array(NA,c(3,m,fr),list(par=c('mu','sigma','gamma'),colnames(data),NULL))
   )
   
-  dim_one = ifelse(distribution == "Gamma", 2, 3)
+  dim_one = ifelse(distribution == "Normal", 2, 3)
   
   if (!is.null(params)) {
     if (dim(params)[1]!=dim_one | dim(params)[2]!=m | dim(params)[3]!=fr) {
       stop(paste('parameters array should have dimensions (', dim_one, ', ', m, ', fr)',sep=' '))
     }
   }
-	
+  
   # Loop through series (columns in data)
   if (!is.null(ref.start) && !is.null(ref.end)) {
     data.fit <- window(data,ref.start,ref.end)	
@@ -239,12 +243,12 @@ eddi <- function(data, scale, kernel=list(type='rectangular',shift=0),
         next()
       }
       
-       if(distribution != "log-Logistic"){
-          pze <- sum(month==0)/length(month)
-          month = month[month > 0]
-        }    
-	    
-       if (is.null(params)) {
+      if(distribution != "log-Logistic"){
+        pze <- sum(month==0)/length(month)
+        month = month[month > 0]
+      }
+      
+      if (is.null(params)) {
         month_sd = sd(month,na.rm=TRUE)
         if (is.na(month_sd) || (month_sd == 0)) {
           std[f] <- NA
@@ -278,6 +282,7 @@ eddi <- function(data, scale, kernel=list(type='rectangular',shift=0),
         # Calculate parameters based on distribution with lmom then lmomco
         f_params = switch(distribution,
                           "log-Logistic" = tryCatch(lmom::pelglo(fortran_vec), error = function(e){ parglo(lmom)$para }),
+                          "Normal" = tryCatch(lmom::pelnor(fortran_vec), error = function(e){ parnor(lmom)$para }),
                           "PearsonIII" = tryCatch(lmom::pelpe3(fortran_vec), error = function(e){ parpe3(lmom)$para })
         )
         
@@ -294,13 +299,15 @@ eddi <- function(data, scale, kernel=list(type='rectangular',shift=0),
       # Calculate cdf based on distribution with lmom
       cdf_res = switch(distribution,
                        "log-Logistic" = lmom::cdfglo(acu.pred[ff], f_params),
+                       "Normal" = lmom::cdfnor(acu.pred[ff], f_params),
                        "PearsonIII" = lmom::cdfpe3(acu.pred[ff], f_params)				  				
       )
+      
       # Fitted values, reversing the sign of EDDI values
       std[ff,s] = -qnorm(cdf_res)
       coef[,s,c] <- f_params
       
-      # Adjust if user chose PearsonIII
+      # Adjust if user chose Normal or PearsonIII
       if(distribution != 'log-Logistic'){ 
         std[ff,s] = qnorm(pze + (1-pze)*pnorm(std[ff,s]))
       }
