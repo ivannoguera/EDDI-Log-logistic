@@ -154,9 +154,6 @@
 #' @references 
 #' Noguera, I.; Vicente-Serrano, S.M.; Domínguez-Castro, F.; Reig, F. 2021. Assessment of parametric approaches to calculate the Evaporative Demand 
 #' Drought Index (EDDI). Int. J. Climatol. Under Review.
-#'
-#' Noguera I, Domínguez-Castro F, Vicente-Serrano SM. 2021. Flash Drought Response to Precipitation and Atmospheric Evaporative Demand in Spain. 
-#' Atmosphere. MDPI AG, 12(2): 165. https://doi.org/10.3390/atmos12020165.
 #' 
 #' 
 #' @author Iván Noguera, Sergio M. Vicente-Serrano, Fernando Domínguez-Castro and Fergus Reig. 
