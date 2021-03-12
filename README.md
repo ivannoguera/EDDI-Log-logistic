@@ -2,7 +2,7 @@
 
 This repository includes a function for the parametric calculation of the **Evaporative Demand Drought Index (EDDI)** based on the Log-logistic distribution in the R programming language. This function is a methodological alternative for EDDI calculation suggested by Noguera et al. (2021), instead of the original formulation of EDDI based on a non-parametric approach proposed by Hobbins et al. (2016).
 
-The function `<eddi>` is based on spei funtion provided by Santiago Beguería and Sergio M. Vicente-Serrano 
+The function `<eddi>` is based on `<spei>` funtion provided by Santiago Beguería and Sergio M. Vicente-Serrano 
 (https://github.com/sbegueria/SPEI).
 
 
