@@ -17,7 +17,7 @@ The function `<eddi>` is provided to compute the **Evaporative Demand Drought In
 Drought Index (EDDI). *Int. J. Climatol*. 2021. Under Review.
 
 * Noguera I, Domínguez-Castro F, Vicente-Serrano SM. 2021. Flash Drought Response to Precipitation and Atmospheric Evaporative Demand in Spain. 
-*Atmosphere*. MDPI AG, **(2)**: 165. https://doi.org/10.3390/atmos12020165.
+*Atmosphere*. MDPI AG, **12(2)**: 165. https://doi.org/10.3390/atmos12020165.
 
 Other references:
 
