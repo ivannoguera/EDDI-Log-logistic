@@ -16,11 +16,11 @@ The function `<eddi>` is provided to compute the **Evaporative Demand Drought In
 * Noguera, I.; Vicente-Serrano, S.M.; Domínguez-Castro, F.; Reig, F. 2021. Assessment of parametric approaches to calculate the Evaporative Demand 
 Drought Index (EDDI). *Int. J. Climatol*. Under Review.
 
-* Hobbins MT, Wood A, McEvoy DJ, Huntington JL, Morton C, Anderson M, Hain C. 2016. The evaporative demand drought index. Part I: Linking drought evolution to variations in evaporative demand. *Journal of Hydrometeorology*, **17(6)**: 1745–1761. https://doi.org/10.1175/JHM-D-15-0121.1.
+* Hobbins MT.; Wood A.; McEvoy DJ.; Huntington JL.; Morton C.; Anderson M.; Hain C. 2016. The evaporative demand drought index. Part I: Linking drought evolution to variations in evaporative demand. *Journal of Hydrometeorology*, **17(6)**: 1745–1761. https://doi.org/10.1175/JHM-D-15-0121.1.
 
 Other references:
 
-* S.M. Vicente-Serrano, S. Beguería, J.I. López-Moreno. 2010. A Multi-scalar drought index sensitive to global warming: The Standardized Precipitation Evapotranspiration Index – SPEI. *Journal of Climate* **23**: 1696, DOI: 10.1175/2009JCLI2909.1.
+* Vicente-Serrano S.M.; Beguería S.; López-Moreno J.I. 2010. A Multi-scalar drought index sensitive to global warming: The Standardized Precipitation Evapotranspiration Index – SPEI. *Journal of Climate* **23**: 1696, DOI: 10.1175/2009JCLI2909.1.
 
-* Beguería S, Vicente-Serrano SM, Reig F, Latorre B. 2014. Standardized precipitation evapotranspiration index (SPEI) revisited: parameter fitting, evapotranspiration models, tools, datasets and drought monitoring. *International Journal of Climatology* **34(10)**: 3001-3023.
+* Beguería S.; Vicente-Serrano SM.; Reig F.; Latorre B. 2014. Standardized precipitation evapotranspiration index (SPEI) revisited: parameter fitting, evapotranspiration models, tools, datasets and drought monitoring. *International Journal of Climatology* **34(10)**: 3001-3023.
 
