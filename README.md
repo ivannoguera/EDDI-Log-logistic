@@ -13,11 +13,11 @@ The function `<eddi>` is provided to compute the Evaporative Demand Drought Inde
 
 ## References
 
-You can cite this references if you use the SPEI library on your work:
+* Noguera, I.; Vicente-Serrano, S.M.; Domínguez-Castro, F.; Reig, F. Assessment of parametric approaches to calculate the Evaporative Demand 
+Drought Index (EDDI). *Int. J. Climatol*. 2021. Under Review.
 
-* S.M. Vicente-Serrano, S. Beguería, J.I. López-Moreno. 2010. A Multi-scalar drought index sensitive to global warming: The Standardized Precipitation Evapotranspiration Index – SPEI. *Journal of Climate* **23**: 1696, DOI: 10.1175/2009JCLI2909.1.
-
-* Beguería S, Vicente-Serrano SM, Reig F, Latorre B. 2014. Standardized precipitation evapotranspiration index (SPEI) revisited: parameter fitting, evapotranspiration models, tools, datasets and drought monitoring. *International Journal of Climatology* **34(10)**: 3001-3023.
+* Noguera I, Domínguez-Castro F, Vicente-Serrano SM. 2021. Flash Drought Response to Precipitation and Atmospheric Evaporative Demand in Spain. 
+*Atmosphere*. MDPI AG, **(2)**: 165. https://doi.org/10.3390/atmos12020165.
 
 Other references:
 
