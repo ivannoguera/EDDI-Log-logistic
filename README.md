@@ -8,7 +8,7 @@ This function is based on spei funtion provided by Santiago Beguería and Sergio
 
 ## Details
 
-The function `<eddi>` is provided to compute the Evaporative Demand Drought Index (EDDI) by means of a parametric approach. The sign of the EDDI is reversed by default (i.e., increase in AED results in decreases in EDDI values). The repository also includes other auxiliary low-level functions such as `<kern>`, `<cdfglo>` or `<pglo>`, as well as the functions `<thornthwaite>`, `<hargreaves>` and `<penman>` for computing potential evapotranspiration (see more details in https://github.com/sbegueria/SPEI).
+The function `<eddi>` is provided to compute the **Evaporative Demand Drought Index (EDDI)** by means of a parametric approach. The sign of the EDDI is reversed by default (i.e., increase in AED results in decreases in EDDI values). The repository also includes other auxiliary low-level functions such as `<kern>`, `<cdfglo>` or `<pglo>`, as well as the functions `<thornthwaite>`, `<hargreaves>` and `<penman>` for computing potential evapotranspiration (see more details in https://github.com/sbegueria/SPEI).
 
 
 ## References
