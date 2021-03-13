@@ -1,6 +1,6 @@
 # EDDI
 
-This repository includes a function for the parametric calculation of the **Evaporative Demand Drought Index (EDDI)** based on the Log-logistic distribution in the R programming language. This function is a methodological alternative for EDDI calculation suggested by Noguera et al. (2021), instead of the original formulation of EDDI based on a non-parametric approach proposed by Hobbins et al. (2016).
+This repository includes a function to compute the **Evaporative Demand Drought Index (EDDI)** through a parametric approach based on the Log-logistic distribution in the R programming language. This function is a methodological alternative for EDDI calculation suggested by Noguera et al. (2021), instead of the original formulation of EDDI based on a non-parametric approach proposed by Hobbins et al. (2016).
 
 The function `<eddi>` is based on `<spei>` function provided by Santiago Beguer√≠a and Sergio M. Vicente-Serrano 
 (https://github.com/sbegueria/SPEI).
@@ -8,7 +8,7 @@ The function `<eddi>` is based on `<spei>` function provided by Santiago Beguer√
 
 ## Details
 
-The function `<eddi>` is provided to compute the **Evaporative Demand Drought Index (EDDI)** by means of a parametric approach. The sign of the EDDI is reversed by default (i.e., increase in ETo results in decreases in EDDI values). The repository also includes other auxiliary low-level functions such as `<kern>`, `<cdfglo>` or `<pglo>`, as well as the functions `<thornthwaite>`, `<hargreaves>` and `<penman>` for computing potential evapotranspiration (see more details in https://github.com/sbegueria/SPEI).
+The function `<eddi>` allows to compute the **Evaporative Demand Drought Index (EDDI)** through a parametric approach. The sign of the EDDI is reversed by default (i.e., increase in ETo results in decreases in EDDI values). The repository also includes other auxiliary low-level functions such as `<kern>`, `<cdfglo>` or `<pglo>`, as well as the functions `<thornthwaite>`, `<hargreaves>` and `<penman>` for computing potential evapotranspiration (see more details in https://github.com/sbegueria/SPEI).
 
 
 ## References
